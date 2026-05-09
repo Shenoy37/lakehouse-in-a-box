@@ -30,7 +30,7 @@ A production-grade medallion lakehouse on Azure + Databricks, built end-to-end w
         │  SILVER  (PySpark + DQX)               │
         │  - Conform types, drop duplicates      │
         │  - Quality gates fail the job fast     │
-        │  - Slowly-changing-dimensions handling  │
+        │  - Slowly-changing-dimensions handling │
         └─────────────────┬──────────────────────┘
                           │
                           ▼
