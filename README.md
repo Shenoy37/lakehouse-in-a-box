@@ -2,13 +2,7 @@
 
 A production-grade medallion lakehouse on Azure + Databricks, built end-to-end with infrastructure as code, CI/CD, data quality checks, and lineage from day one. Public dataset, public code, runs on free tiers.
 
-> Built by [Siddharth Shenoy](https://www.linkedin.com/in/siddharth-shenoy-145ab3224/) — Associate Data Engineer @ EY. Learning in public.
-
 ## What this project is
-
-Most data engineering portfolios show three notebooks named `bronze.ipynb`, `silver.ipynb`, `gold.ipynb` and call it a lakehouse. That isn't what production looks like.
-
-This project is what production actually looks like, scaled down to a free-tier budget:
 
 - Real Auto Loader ingestion with schema evolution handling, not `spark.read.parquet()` calls
 - Terraform-provisioned ADLS Gen2 storage and Unity Catalog setup, not click-ops
@@ -17,8 +11,6 @@ This project is what production actually looks like, scaled down to a free-tier 
 - DQX data quality gates between layers
 - OpenLineage tracking from Bronze through Gold
 - One opinionated `pipeline.yaml` that drives the whole thing
-
-The dataset is the New York TLC taxi trip data — boring on purpose. Boring data lets the engineering shine.
 
 ## Architecture
 
@@ -36,9 +28,9 @@ The dataset is the New York TLC taxi trip data — boring on purpose. Boring dat
                           ▼
         ┌────────────────────────────────────────┐
         │  SILVER  (PySpark + DQX)               │
-        │  - Conform types, drop dupes           │
-        │  - Quality gates fail the job loud     │
-        │  - Slowly-changing-dim handling        │
+        │  - Conform types, drop duplicates      │
+        │  - Quality gates fail the job fast     │
+        │  - Slowly-changing-dimensions handling │
         └─────────────────┬──────────────────────┘
                           │
                           ▼
@@ -46,7 +38,7 @@ The dataset is the New York TLC taxi trip data — boring on purpose. Boring dat
         │  GOLD  (dbt-databricks)                │
         │  - Star schema: fact_trips +           │
         │    dim_zone, dim_date, dim_vendor      │
-        │  - Materialized as Delta tables        │
+        │  - Materialised as Delta tables        │
         └────────────────────────────────────────┘
 ```
 
@@ -81,7 +73,7 @@ Full setup (including how to get free Azure + Databricks accounts) is in [`docs/
 
 ## Design decisions and tradeoffs
 
-This section is where I explain why I made the calls I did. If you're a hiring manager skim-reading, this is the section worth opening.
+This section is where I explain why I made the calls I did.
 
 **Why Delta over Iceberg.** Both work. Delta has tighter Databricks integration and Unity Catalog handles it natively. Iceberg's catalog story is still maturing on Azure. For an Azure + Databricks-first project, Delta is the pragmatic choice. Switching to Iceberg later is one config change away — no schema migration.
 
@@ -96,7 +88,7 @@ This section is where I explain why I made the calls I did. If you're a hiring m
 ## Build progress (live)
 
 - [x] Week 1: Skeleton + Terraform + Bronze ingestion + tests
-- [ ] Week 2: GitHub Actions CI + Asset Bundle deploy
+- [] Week 2: GitHub Actions CI + Asset Bundle deploy
 - [ ] Week 3: Silver layer + DQX checks
 - [ ] Week 4: Gold layer + dbt + first end-to-end run
 - [ ] Month 2: DLT variant + observability + OpenLineage
@@ -104,8 +96,8 @@ This section is where I explain why I made the calls I did. If you're a hiring m
 
 ## Articles I've written about this build
 
-- (Coming) Bronze layer Medium piece
-- (Coming) "What Auto Loader tutorials don't tell you"
+- (Coming soon) Bronze layer Medium piece
+- (Coming soon) "What Auto Loader tutorials don't tell you"
 
 ## License
 
